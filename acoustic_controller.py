@@ -23,11 +23,13 @@ def check_format(audio_file):
 
 # temporary "main"
 # switches out the old audio clip for the new working one.
+
+
 audio_to_analyze = check_format(raw_audio)
 
 # test for acoustic statistics
 results = Statistics(audio_to_analyze)
-print(results.get_length(audio_to_analyze))
+results.get_length(audio_to_analyze)
 
 
 

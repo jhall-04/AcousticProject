@@ -1,4 +1,4 @@
-from acoustic_statistics import Statistics
+from acoustic_view import Statistics
 from pydub import AudioSegment
 import pathlib
 
@@ -30,6 +30,7 @@ audio_to_analyze = check_format(raw_audio)
 # test for acoustic statistics
 results = Statistics(audio_to_analyze)
 results.get_length(audio_to_analyze)
+results.get_highest_resonance(audio_to_analyze)
 
 
 

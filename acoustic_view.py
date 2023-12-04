@@ -18,6 +18,8 @@ a = sabins (total room absorption at given frequency)
 """
 # imports
 import audioread
+import tkinter as tk
+from tkinter import ttk
 
 class Statistics:
     def __init__(self, audio_file):
@@ -31,3 +33,9 @@ class Statistics:
         # get the medium/average frequency
         # get the lowest frequency
         print("test")
+
+
+
+class View(ttk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent)

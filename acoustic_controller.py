@@ -1,4 +1,5 @@
-from acoustic_view import Statistics
+from acoustic_model import Model
+from acoustic_view import Statistics, View
 from pydub import AudioSegment
 import pathlib
 
@@ -32,17 +33,3 @@ class Controller:
             audio_converted.export("Florida_Polytechnic_University_5.wav", format="wav")
             audio_file = "Florida_Polytechnic_University_5.wav"
         return audio_file
-
-# temporary "main"
-# switches out the old audio clip for the new working one.
-
-
-audio_to_analyze = check_format(raw_audio)
-
-# test for acoustic statistics
-results = Statistics(audio_to_analyze)
-results.get_length(audio_to_analyze)
-results.get_highest_resonance(audio_to_analyze)
-
-
-

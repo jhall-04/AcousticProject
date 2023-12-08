@@ -2,6 +2,8 @@ from acoustic_model import Model
 from acoustic_view import Statistics, View
 from pydub import AudioSegment
 import pathlib
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 
 # --comment to be removed
 # replace the direct file call with the tkinter import once completed
@@ -18,11 +20,19 @@ class Controller:
         self.model = model
         self.view = view
 
-    def check_format(self, audio_file):
-        # gets the file type before converting if not a wav
-        file_extension = pathlib.Path(audio_file).suffix
-        if file_extension != ".wav":
-            audio_converted = AudioSegment.from_file(audio_file)
-            audio_converted.export("Clap.wav", format="wav")
-            audio_file = "Clap.wav"
-        return audio_file
+    def display_plot_in_tkinter(self, root, fig):
+        canvas = FigureCanvasTkAgg(fig, master=root)
+        canvas_widget = canvas.get_tk_widget()
+
+        # Add the Matplotlib canvas to the Tkinter window
+        canvas_widget.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
+
+
+        root.mainloop()
+    
+    def load_data(self):
+        self.model.load()
+        self.view.name_label.text = self.model.file_path
+    
+

@@ -2,3 +2,4 @@ pydub
 pathlib
 audioread
 moviepy
+ffmpeg

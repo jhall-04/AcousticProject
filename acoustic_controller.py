@@ -2,6 +2,7 @@ from acoustic_model import Model
 from acoustic_view import Statistics, View
 from pydub import AudioSegment
 import pathlib
+import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
@@ -33,6 +34,6 @@ class Controller:
     
     def load_data(self):
         self.model.load()
-        self.view.name_label.text = self.model.file_path
+        self.view.name_label['text'] = f'Name: {self.model.file_path}'
     
 

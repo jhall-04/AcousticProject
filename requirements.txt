@@ -3,3 +3,4 @@ pathlib
 audioread
 moviepy
 ffmpeg
+matplotlib

@@ -20,6 +20,7 @@ class Model:
         try:
             audio = aClip(value)
             self._file_path = value
+            self.check_format(value)
         except Exception:
             raise ValueError(f"This is not an audio file: {value}")
     
@@ -27,8 +28,9 @@ class Model:
     def check_format(self, audio_file):
     # gets the file type before converting if not a wav
         file_extension = pathlib.Path(audio_file).suffix
+        print(file_extension[1:])
         if file_extension != ".wav":
-            audio_converted = AudioSegment.from_file(audio_file)
+            audio_converted = AudioSegment.from_file(audio_file, format=file_extension[1:])
             audio_converted.export("Clap.wav", format="wav")
             audio_file = "Clap.wav"
             self.file_path = audio_file
@@ -39,8 +41,8 @@ class Model:
     
     def load(self):
         filetypes = (
-            ('text files', '*.txt'),
-            ('All files', '*.*')
+            ('All files', '*.*'),
+            ('Text files', '*.txt*')
         )
 
         filename = fd.askopenfilename(
@@ -51,7 +53,3 @@ class Model:
     
 
 
-model = Model("Florida_Polytechnic_University_5.m4a")
-model.check_format(model.file_path)
-model.file_path = "Clap.wav"
-print(model.file_path)

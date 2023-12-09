@@ -1,6 +1,6 @@
 from acoustic_model import Model
-from acoustic_view import Statistics, View
 from pydub import AudioSegment
+from acoustic_model import Statistics
 import pathlib
 
 # --comment to be removed
@@ -26,3 +26,10 @@ class Controller:
             audio_converted.export("Clap.wav", format="wav")
             audio_file = "Clap.wav"
         return audio_file
+
+
+# --comment to be removed
+# placeholder code for testing modeling/data analysis code:
+s = Statistics(raw_audio)
+s.get_length(raw_audio)
+s.get_rd60_display()

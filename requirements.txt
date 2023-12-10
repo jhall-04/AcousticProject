@@ -3,3 +3,4 @@ pathlib
 audioread
 moviepy
 scipy.io
+ffmpeg

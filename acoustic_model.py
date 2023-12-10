@@ -3,6 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from moviepy.editor import AudioFileClip as aClip
 from scipy.io import wavfile
+from pydub import AudioSegment
+import pathlib
+import os
+from tkinter import filedialog as fd
 
 # temporary placeholder, replace with call for import from controller instead of hardcoded filepath
 sample_rate, data = wavfile.read("Florida_Polytechnic_University_5.wav")
@@ -52,22 +56,63 @@ def frequency_check(freq_range):
     data_in_db_fun = 10 * np.log10(data_for_frequency)
     return data_in_db_fun
 
+class Model:
+    def __init__(self, file_path):
+        self.file_path = file_path
 
-class Statistics:
-    def __init__(self, audio_file):
-        self.audio_file = audio_file
+
+    @property
+    def file_path(self):
+        return self._file_path
+    
+    @file_path.setter
+    def file_path(self, value):
+        if not os.path.exists(value):
+            raise ValueError(f"Path {value} not found")
+        try:
+            audio = aClip(value)
+            self._file_path = value
+        except Exception:
+            raise ValueError(f"This is not an audio file: {value}")
+
+    def check_format(self, audio_file):
+    # gets the file type before converting if not a wav
+        file_extension = pathlib.Path(audio_file).suffix
+        if file_extension != ".wav":
+            audio_converted = AudioSegment.from_file(audio_file)
+            audio_converted.export("Clap.wav", format="wav")
+            audio_file = "Clap.wav"
+            self.file_path = audio_file
+    def mono_audio(self):
+        audio = AudioSegment.from_wav(self.file_path)
+        audio.set_channels(1)
+        audio.export("Clap.wav", format="wav")
+    
+    def load(self):
+        filetypes = (
+            ('text files', '*.txt'),
+            ('All files', '*.*')
+        )
+
+        filename = fd.askopenfilename(
+            title='Open a file',
+            initialdir='/',
+            filetypes=filetypes)
+        self.file_path = filename
+
 
     def get_length(self, audio_file):
         with audioread.audio_open(audio_file) as f:
             # placeholder print statement, replace with call to display to gui
             print("The full duration of the file audio clip is: ", round(f.duration, 2), "seconds")
 
+
     def get_rd60_display(self, freq_range):
         data_in_db = frequency_check(freq_range)
 
         plt.figure("Decibels over time")
 
-        plt.plot(t, data_in_db, linewidth=1.5,  color='#1EC197')
+        plt.plot(t, data_in_db, linewidth=1.5, color='#1EC197')
 
         plt.xlabel('Time (s)')
 
@@ -109,23 +154,10 @@ class Statistics:
 
         plt.grid()
         plt.show()
-
-
-class Model:
-    def __init__(self, file_path):
-        self.file_path = file_path
-
-
-    @property
-    def file_path(self):
-        return self._file_path
     
-    @file_path.setter
-    def file_path(self, value):
-        try:
-            audio = aClip(value)
-            self._file_path = value
-        except Exception:
-            raise ValueError(f"This is not an audio file: {value}")
 
 
+model = Model("Florida_Polytechnic_University_5.m4a")
+model.check_format(model.file_path)
+model.file_path = "Clap.wav"
+print(model.file_path)

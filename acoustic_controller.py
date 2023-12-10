@@ -7,7 +7,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # --comment to be removed
 # replace the direct file call with the tkinter import once completed
-raw_audio = "Florida_Polytechnic_University_5.wav"
+raw_audio = "Clap.wav"
 
 
 # --comment to be removed
@@ -20,14 +20,7 @@ class Controller:
         self.model = model
         self.view = view
 
-    def check_format(self, audio_file):
-        # gets the file type before converting if not a wav
-        file_extension = pathlib.Path(audio_file).suffix
-        if file_extension != ".wav":
-            audio_converted = AudioSegment.from_file(audio_file)
-            audio_converted.export("Clap.wav", format="wav")
-            audio_file = "Clap.wav"
-        return audio_file
+
 
 
     def display_plot_in_tkinter(self, root, fig):
@@ -42,13 +35,16 @@ class Controller:
         root.mainloop()
     
     def load_data(self):
-        self.model.load()
-        self.view.name_label['text'] = f'Name: {self.model.file_path}'
+        file = pathlib.Path(self.model.load()).name
+        self.view.name_label['text'] = f'Name: {file}'
+        self.view.time_label['text'] = f'Time: {self.model.get_length(raw_audio)}'
 
 # --comment to be removed
 # placeholder code for testing modeling/data analysis code:
-s = Model(raw_audio)
+'''
+s = Model()
 s.get_length(raw_audio)
 s.get_rd60_display("mid")
 s.get_rd60_display("low")
 s.get_rd60_display("high")
+'''

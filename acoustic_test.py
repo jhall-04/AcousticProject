@@ -13,7 +13,7 @@ class App(tk. Tk):
         self.geometry('1000x500')
 
         # create a model
-        model = Model('Florida_Polytechnic_University_5.m4a')
+        model = Model()
 
 
 

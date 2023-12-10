@@ -32,4 +32,6 @@ class Controller:
 # placeholder code for testing modeling/data analysis code:
 s = Statistics(raw_audio)
 s.get_length(raw_audio)
-s.get_rd60_display()
+s.get_rd60_display("mid")
+s.get_rd60_display("low")
+s.get_rd60_display("high")

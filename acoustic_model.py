@@ -6,6 +6,7 @@ from moviepy.editor import AudioFileClip as aClip
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from scipy.io import wavfile
+from scipy.signal import welch
 from pydub import AudioSegment
 import pathlib
 import os
@@ -185,4 +186,8 @@ class Model:
             canvas.draw()
             canvas_widget = canvas.get_tk_widget()
             return canvas_widget
+    def get_frequency(self):
+        frequencies, power = welch(data, sample_rate, nperseg=4096)
+        dominant_frequency = frequencies[np.argmax(power)]
+        return f'The dominant resonant frequency is: {round(dominant_frequency)}Hz'
 

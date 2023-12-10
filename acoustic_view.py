@@ -1,4 +1,6 @@
 # imports
+import matplotlib.pyplot as plt
+
 from acoustic_model import Model
 from acoustic_controller import Controller
 import tkinter as tk
@@ -27,8 +29,6 @@ class View(ttk.Frame):
         self.all_button = ttk.Button(self, text='All', command=self.all_button_pressed)
         self.all_button.grid(row=8, column=7, padx=5, pady=5)
 
-        self.spec_button = ttk.Button(self, text='Spectrogram', command=self.spec_button_pressed)
-        self.spec_button.grid(row=8, column=8, padx=5, pady=5)
 
 
         # File name
@@ -81,22 +81,22 @@ class View(ttk.Frame):
         model = Model()
         self.frequency_label['text'] = f'Reverb: {model.get_rd60_display("high")}'
 
-        #con = Controller(model, self)
-        #canvas_widget = model.plot_waveform(self, model.file_path)
-        # Add the Matplotlib canvas to the Tkinter window
-       # canvas_widget.grid(row=4, column=1, sticky='w')
-
     def mid_button_pressed(self):
         model = Model()
         self.frequency_label['text'] = f'Reverb: {model.get_rd60_display("mid")}'
-        pass
+
 
     def low_button_pressed(self):
         model = Model()
         self.frequency_label['text'] = f'Reverb: {model.get_rd60_display("low")}'
-        pass
+
 
     def all_button_pressed(self):
+        # placeholder
         pass
+
+
+
+
 
         

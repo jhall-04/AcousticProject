@@ -20,6 +20,7 @@ plt.figure("Spectrogram")
 plt.xlabel('Time (s)')
 
 plt.ylabel('Frequency(Hz)')
+
 spectrum, freqs, t, im = plt.specgram(data, Fs=sample_rate, NFFT=1024, cmap=plt.get_cmap('viridis'))
 cbar = plt.colorbar(im)
 
@@ -117,18 +118,19 @@ class Model:
     def get_rd60_display(self, freq_range):
         data_in_db = frequency_check(freq_range)
 
-        fig1, ax1 = plt.subplots()
-        ax1.plot(t, data_in_db, linewidth=1.5, color='#1EC197')
-        ax1.set_title("Decibles over time")
-        ax1.set_xlabel('Time (s)')
-        ax1.set_ylabel('Power (dB)')
+        plt.figure("Decibels over time")
 
+        plt.plot(t, data_in_db, linewidth=1.5, color='#1EC197')
+
+        plt.xlabel('Time (s)')
+
+        plt.ylabel('Power(dB)')
 
         # find index of max value of the frequency
         index_of_max = np.argmax(data_in_db)
         value_of_max = data_in_db[index_of_max]
 
-        ax1.plot(t[index_of_max], data_in_db[index_of_max], 'go', color='#1E99C1')
+        plt.plot(t[index_of_max], data_in_db[index_of_max], 'go', color='#1E99C1')
 
         # slice array from max value
         sliced_array = data_in_db[index_of_max:]
@@ -143,14 +145,14 @@ class Model:
         value_of_max_less_5 = find_nearest_value(sliced_array, value_of_max_less_5)
         index_of_max_less_5 = np.where(data_in_db == value_of_max_less_5)
 
-        ax1.plot(t[index_of_max_less_5], data_in_db[index_of_max_less_5], 'yo', color='#1E47C1')
+        plt.plot(t[index_of_max_less_5], data_in_db[index_of_max_less_5], 'yo', color='#1E47C1')
 
         # slice array from a max-5dB
         value_of_max_less_25 = value_of_max - 25
         value_of_max_less_25 = find_nearest_value(sliced_array, value_of_max_less_25)
         index_of_max_less_25 = np.where(data_in_db == value_of_max_less_25)
 
-        ax1.plot(t[index_of_max_less_25], data_in_db[index_of_max_less_25], 'ro', color='#461EC1')
+        plt.plot(t[index_of_max_less_25], data_in_db[index_of_max_less_25], 'ro', color='#461EC1')
 
         rt20 = (t[index_of_max_less_5] - t[index_of_max_less_25])[0]
         rt60 = 3 * rt20
@@ -158,8 +160,8 @@ class Model:
         # placeholder print statement, replace with call to display to gui
         print(f'The RT60 reverb time at freq {int(target_frequency)}Hz is {round(abs(rt60), 2)} seconds')
 
-        ax1.grid()
-        #return fig1, round(abs(rt60), 2)
+        plt.grid()
+        plt.show()
         return f'The RT60 reverb time at freq {int(target_frequency)}Hz is {round(abs(rt60), 2)} seconds'
 
     def plot_waveform(self, root, file_path):
@@ -184,13 +186,3 @@ class Model:
             canvas_widget = canvas.get_tk_widget()
             return canvas_widget
 
-    def plot_spectrogram(self):
-        plt.figure("Spectrogram")
-
-        plt.xlabel('Time (s)')
-
-        plt.ylabel('Frequency(Hz)')
-        spectrum, freqs, t, im = plt.specgram(data, Fs=sample_rate, NFFT=1024, cmap=plt.get_cmap('viridis'))
-        cbar = plt.colorbar(im)
-
-        cbar.set_label('Intensity (dB)')

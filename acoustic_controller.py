@@ -5,14 +5,7 @@ import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
-# --comment to be removed
-# replace the direct file call with the tkinter import once completed
 raw_audio = "Clap.wav"
-
-
-# --comment to be removed
-# needed to convert to wav for the purposes of having a file to read for statistics, so I went ahead and finished this
-# part of the cleanup code while I was at it
 
 
 class Controller:

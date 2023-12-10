@@ -123,6 +123,7 @@ class Model:
         ax1.set_xlabel('Time (s)')
         ax1.set_ylabel('Power (dB)')
 
+
         # find index of max value of the frequency
         index_of_max = np.argmax(data_in_db)
         value_of_max = data_in_db[index_of_max]
@@ -158,7 +159,8 @@ class Model:
         print(f'The RT60 reverb time at freq {int(target_frequency)}Hz is {round(abs(rt60), 2)} seconds')
 
         ax1.grid()
-        return fig1, round(abs(rt60), 2)
+        #return fig1, round(abs(rt60), 2)
+        return f'The RT60 reverb time at freq {int(target_frequency)}Hz is {round(abs(rt60), 2)} seconds'
 
     def plot_waveform(self, root, file_path):
         # Open the .wav file
@@ -181,3 +183,14 @@ class Model:
             canvas.draw()
             canvas_widget = canvas.get_tk_widget()
             return canvas_widget
+
+    def plot_spectrogram(self):
+        plt.figure("Spectrogram")
+
+        plt.xlabel('Time (s)')
+
+        plt.ylabel('Frequency(Hz)')
+        spectrum, freqs, t, im = plt.specgram(data, Fs=sample_rate, NFFT=1024, cmap=plt.get_cmap('viridis'))
+        cbar = plt.colorbar(im)
+
+        cbar.set_label('Intensity (dB)')

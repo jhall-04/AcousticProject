@@ -20,24 +20,16 @@ class Controller:
         self.model = model
         self.view = view
 
-
-
-
-    def display_plot_in_tkinter(self, root, fig):
-        canvas = FigureCanvasTkAgg(fig, master=root)
-        canvas_widget = canvas.get_tk_widget()
-
+    def display_plot_in_tkinter(self):
+        canvas_widget = self.model.plot_waveform(self.view, self.model.file_path)
         # Add the Matplotlib canvas to the Tkinter window
-        canvas_widget.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-
-
-
-        root.mainloop()
+        canvas_widget.grid(row=4, column=1, sticky='w')
     
     def load_data(self):
         file = pathlib.Path(self.model.load()).name
         self.view.name_label['text'] = f'Name: {file}'
         self.view.time_label['text'] = f'Time: {self.model.get_length(raw_audio)}'
+        self.display_plot_in_tkinter()
 
 # --comment to be removed
 # placeholder code for testing modeling/data analysis code:

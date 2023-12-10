@@ -1,7 +1,8 @@
 # imports
 import tkinter as tk
 from tkinter import ttk
-from PIL import Image, ImageTk
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # moved old code to model // putting it here was incorrect and my bad
 
@@ -11,7 +12,10 @@ class View(ttk.Frame):
 
         # load button
         self.load_button = ttk.Button(self, text='Load', command=self.load_button_pressed)
-        self.load_button.grid(row=8, column=1, sticky="nsew")
+        self.load_button.grid(row=8, column=1)
+
+        self.plot_button = ttk.Button(self, text='Plot', command=self.plot_button_pressed)
+        self.plot_button.grid(row=8, column=2)
 
         # File name
         self.name_label = ttk.Label(self, text='Name: ', foreground='black')
@@ -22,6 +26,15 @@ class View(ttk.Frame):
 
         self.frequency_label = ttk.Label(self, text='Frequency: ', foreground='black')
         self.frequency_label.grid(row=3, column=1, sticky='w')
+
+        self.placeholder_fig = Figure(figsize=(4, 2), dpi=100)
+        self.ax = self.placeholder_fig.add_subplot(111)
+        self.ax.axis('off')  # Turn off axis to create a blank space
+        self.placeholder_fig.patch.set_visible(False)  # Hide the figure patch
+        self.canvas = FigureCanvasTkAgg(self.placeholder_fig, self)
+        self.canvas.draw()
+        self.canvas.get_tk_widget().grid(row=4, column=1, sticky='w')
+
 
 
 
@@ -34,4 +47,22 @@ class View(ttk.Frame):
     def load_button_pressed(self):
         if self.controller:
             self.controller.load_data()
+
+    def plot_button_pressed(self):
+        if self.controller:
+            '''
+            canvas1 = FigureCanvasTkAgg(self.controller.model.get_rd60_display('high'), self.upper_frame)
+            canvas1.draw()
+            canvas1.get_tk_widget().grid(row=3, column=1, sticky='w')
+            '''
+            self.controller.display_plot_in_tkinter()
+
+    def plot_high_pressed(self):
+        pass
+
+    def plot_mid_pressed(self):
+        pass
+
+    def plot_low_pressed(self):
+        pass
         

@@ -1,6 +1,7 @@
 # imports
 import tkinter as tk
 from tkinter import ttk
+from PIL import Image, ImageTk
 
 # moved old code to model // putting it here was incorrect and my bad
 
@@ -22,6 +23,13 @@ class View(ttk.Frame):
         self.name_label = ttk.Label(self, text='Frequency: ', foreground='black')
         self.name_label.grid(row=3, column=1)
 
+        # Open the image file using Pillow
+        img = Image.open('img.png')
+        img = ImageTk.PhotoImage(img)
+
+        # Create a label to display the image
+        self.waveform = tk.Label(self, image=img)
+        self.waveform.grid(row=4, column=1)
 
         # set the controller
         self.controller = None

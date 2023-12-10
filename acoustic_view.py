@@ -36,7 +36,7 @@ class View(ttk.Frame):
         self.frequency_label = ttk.Label(self, text='Frequency: ', foreground='black')
         self.frequency_label.grid(row=3, column=1, sticky='w')
 
-        self.placeholder_fig = Figure(figsize=(4, 2), dpi=100)
+        self.placeholder_fig = Figure(figsize=(4.8, 2), dpi=100)
         self.ax = self.placeholder_fig.add_subplot(111)
         self.ax.axis('off')  # Turn off axis to create a blank space
         self.placeholder_fig.patch.set_visible(False)  # Hide the figure patch

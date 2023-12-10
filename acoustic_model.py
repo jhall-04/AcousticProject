@@ -168,7 +168,7 @@ class Model:
             sample_rate, signal = wavfile.read(file_path)
 
             # Create a Matplotlib figure
-            fig = Figure(figsize=(4, 2), dpi=100)
+            fig = Figure(figsize=(4.8, 2), dpi=100)
             ax = fig.add_subplot(111)
 
             # Plot the waveform
@@ -181,3 +181,5 @@ class Model:
             canvas.draw()
             canvas_widget = canvas.get_tk_widget()
             return canvas_widget
+    def get_resonant_frequency(self):
+        pass

@@ -1,10 +1,13 @@
 # imports
+import matplotlib.pyplot as plt
+
+from acoustic_model import Model
+from acoustic_controller import Controller
 import tkinter as tk
 from tkinter import ttk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-# moved old code to model // putting it here was incorrect and my bad
 
 class View(ttk.Frame):
     def __init__(self, parent):
@@ -21,10 +24,16 @@ class View(ttk.Frame):
         self.mid_button.grid(row=8, column=5, padx=5, pady=5)
 
         self.low_button = ttk.Button(self, text='Low', command=self.low_button_pressed)
+        # since clicking the buttons one after the other forms the "all" graph, there isn't a need for a specific
+        # button, at least for mvp
         self.low_button.grid(row=8, column=6, padx=5, pady=5)
-
+        """
         self.all_button = ttk.Button(self, text='All', command=self.all_button_pressed)
         self.all_button.grid(row=8, column=7, padx=5, pady=5)
+        """
+
+
+
 
         # File name
         self.name_label = ttk.Label(self, text='Name: ', foreground='black')
@@ -50,9 +59,6 @@ class View(ttk.Frame):
         self.canvas1 = FigureCanvasTkAgg(self.placeholder_fig1, self)
         self.canvas1.get_tk_widget().grid(row=4, column=4, columnspan=4, padx=15)
 
-
-
-
         # set the controller
         self.controller = None
 
@@ -62,6 +68,8 @@ class View(ttk.Frame):
     def load_button_pressed(self):
         if self.controller:
             self.controller.load_data()
+            model = Model()
+            self.frequency_label['text'] = f'Reverb: {model.get_frequency()}'
 
     def plot_button_pressed(self):
         if self.controller:
@@ -73,14 +81,25 @@ class View(ttk.Frame):
             self.controller.display_plot_in_tkinter()
 
     def high_button_pressed(self):
-        pass
+        model = Model()
+        self.frequency_label['text'] = f'Reverb: {model.get_rd60_display("high")}'
 
     def mid_button_pressed(self):
-        pass
+        model = Model()
+        self.frequency_label['text'] = f'Reverb: {model.get_rd60_display("mid")}'
+
 
     def low_button_pressed(self):
-        pass
+        model = Model()
+        self.frequency_label['text'] = f'Reverb: {model.get_rd60_display("low")}'
+
 
     def all_button_pressed(self):
-        pass
+        model = Model()
+        self.frequency_label['text'] = f'Reverb: {model.get_frequency()}'
+
+
+
+
+
         

@@ -4,3 +4,5 @@ audioread
 moviepy
 scipy.io
 ffmpeg
+matplotlib
+

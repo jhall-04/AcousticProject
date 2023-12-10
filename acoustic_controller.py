@@ -43,7 +43,7 @@ class Controller:
     
     def load_data(self):
         self.model.load()
-        self.view.name_label.text = self.model.file_path
+        self.view.name_label['text'] = f'Name: {self.model.file_path}'
 
 # --comment to be removed
 # placeholder code for testing modeling/data analysis code:
@@ -52,4 +52,3 @@ s.get_length(raw_audio)
 s.get_rd60_display("mid")
 s.get_rd60_display("low")
 s.get_rd60_display("high")
-

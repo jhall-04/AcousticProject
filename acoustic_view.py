@@ -14,8 +14,17 @@ class View(ttk.Frame):
         self.load_button = ttk.Button(self, text='Load', command=self.load_button_pressed)
         self.load_button.grid(row=8, column=1)
 
-        self.plot_button = ttk.Button(self, text='Plot', command=self.plot_button_pressed)
-        self.plot_button.grid(row=8, column=2)
+        self.high_button = ttk.Button(self, text='High', command=self.high_button_pressed)
+        self.high_button.grid(row=8, column=4, padx=5, pady=5)
+
+        self.mid_button = ttk.Button(self, text='Mid', command=self.mid_button_pressed)
+        self.mid_button.grid(row=8, column=5, padx=5, pady=5)
+
+        self.low_button = ttk.Button(self, text='Low', command=self.low_button_pressed)
+        self.low_button.grid(row=8, column=6, padx=5, pady=5)
+
+        self.all_button = ttk.Button(self, text='All', command=self.all_button_pressed)
+        self.all_button.grid(row=8, column=7, padx=5, pady=5)
 
         # File name
         self.name_label = ttk.Label(self, text='Name: ', foreground='black')
@@ -32,8 +41,14 @@ class View(ttk.Frame):
         self.ax.axis('off')  # Turn off axis to create a blank space
         self.placeholder_fig.patch.set_visible(False)  # Hide the figure patch
         self.canvas = FigureCanvasTkAgg(self.placeholder_fig, self)
-        self.canvas.draw()
         self.canvas.get_tk_widget().grid(row=4, column=1, sticky='w')
+
+        self.placeholder_fig1 = Figure(figsize=(3, 2), dpi=100)
+        self.ax1 = self.placeholder_fig1.add_subplot(111)
+        self.ax1.axis('off')  # Turn off axis to create a blank space
+        self.placeholder_fig1.patch.set_visible(False)  # Hide the figure patch
+        self.canvas1 = FigureCanvasTkAgg(self.placeholder_fig1, self)
+        self.canvas1.get_tk_widget().grid(row=4, column=4, columnspan=4, padx=15)
 
 
 
@@ -57,12 +72,15 @@ class View(ttk.Frame):
             '''
             self.controller.display_plot_in_tkinter()
 
-    def plot_high_pressed(self):
+    def high_button_pressed(self):
         pass
 
-    def plot_mid_pressed(self):
+    def mid_button_pressed(self):
         pass
 
-    def plot_low_pressed(self):
+    def low_button_pressed(self):
+        pass
+
+    def all_button_pressed(self):
         pass
         

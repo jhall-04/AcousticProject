@@ -167,7 +167,7 @@ class Model:
         index_of_max = np.argmax(data_in_db)
         value_of_max = data_in_db[index_of_max]
 
-        ax.plot(t[index_of_max], data_in_db[index_of_max], color='#1E99C1')
+        ax.plot(t[index_of_max], data_in_db[index_of_max], 'go')
 
         # slice array from max value
         sliced_array = data_in_db[index_of_max:]
@@ -182,14 +182,14 @@ class Model:
         value_of_max_less_5 = find_nearest_value(sliced_array, value_of_max_less_5)
         index_of_max_less_5 = np.where(data_in_db == value_of_max_less_5)
 
-        ax.plot(t[index_of_max_less_5], data_in_db[index_of_max_less_5], color='#1E47C1')
+        ax.plot(t[index_of_max_less_5], data_in_db[index_of_max_less_5], 'yo')
 
         # slice array from a max-5dB
         value_of_max_less_25 = value_of_max - 25
         value_of_max_less_25 = find_nearest_value(sliced_array, value_of_max_less_25)
         index_of_max_less_25 = np.where(data_in_db == value_of_max_less_25)
 
-        ax.plot(t[index_of_max_less_25], data_in_db[index_of_max_less_25], color='#461EC1')
+        ax.plot(t[index_of_max_less_25], data_in_db[index_of_max_less_25], 'ro')
 
         rt20 = (t[index_of_max_less_5] - t[index_of_max_less_25])[0]
         rt60 = 3 * rt20

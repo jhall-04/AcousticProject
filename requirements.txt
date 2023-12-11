@@ -1,6 +1,5 @@
 audioread
 ffmpeg
-moviepy
 matplotlib
 numpy
 pydub

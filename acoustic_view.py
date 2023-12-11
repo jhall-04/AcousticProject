@@ -12,6 +12,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 class View(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
+        self.loaded = False
 
         # load button
         self.load_button = ttk.Button(self, text='Load', command=self.load_button_pressed)
@@ -27,6 +28,11 @@ class View(ttk.Frame):
         # since clicking the buttons one after the other forms the "all" graph, there isn't a need for a specific
         # button, at least for mvp
         self.low_button.grid(row=8, column=6, padx=5, pady=5)
+
+        self.all_button = ttk.Button(self, text='All', command=self.all_button_pressed)
+        self.all_button.grid(row=8, column=7, padx=5, pady=5)
+
+
         """
         self.all_button = ttk.Button(self, text='All', command=self.all_button_pressed)
         self.all_button.grid(row=8, column=7, padx=5, pady=5)
@@ -45,6 +51,9 @@ class View(ttk.Frame):
         self.frequency_label = ttk.Label(self, text='Frequency: ', foreground='black')
         self.frequency_label.grid(row=3, column=1, sticky='w')
 
+        self.reverb_label = ttk.Label(self, text='Reverb: ', foreground='black')
+        self.reverb_label.grid(row=3, column=4, columnspan=4, sticky='w')
+
         self.placeholder_fig = Figure(figsize=(4.8, 2), dpi=100)
         self.ax = self.placeholder_fig.add_subplot(111)
         self.ax.axis('off')  # Turn off axis to create a blank space
@@ -52,12 +61,12 @@ class View(ttk.Frame):
         self.canvas = FigureCanvasTkAgg(self.placeholder_fig, self)
         self.canvas.get_tk_widget().grid(row=4, column=1, sticky='w')
 
-        self.placeholder_fig1 = Figure(figsize=(3, 2), dpi=100)
+        self.placeholder_fig1 = Figure(figsize=(4.8, 2), dpi=100)
         self.ax1 = self.placeholder_fig1.add_subplot(111)
         self.ax1.axis('off')  # Turn off axis to create a blank space
         self.placeholder_fig1.patch.set_visible(False)  # Hide the figure patch
         self.canvas1 = FigureCanvasTkAgg(self.placeholder_fig1, self)
-        self.canvas1.get_tk_widget().grid(row=4, column=4, columnspan=4, padx=15)
+        self.canvas1.get_tk_widget().grid(row=4, column=4, columnspan=4)
 
         # set the controller
         self.controller = None
@@ -68,11 +77,10 @@ class View(ttk.Frame):
     def load_button_pressed(self):
         if self.controller:
             self.controller.load_data()
-            model = Model()
-            self.frequency_label['text'] = f'Reverb: {model.get_frequency()}'
+            self.loaded = True
 
     def plot_button_pressed(self):
-        if self.controller:
+        if self.controller and self.loaded:
             '''
             canvas1 = FigureCanvasTkAgg(self.controller.model.get_rd60_display('high'), self.upper_frame)
             canvas1.draw()
@@ -81,22 +89,20 @@ class View(ttk.Frame):
             self.controller.display_plot_in_tkinter()
 
     def high_button_pressed(self):
-        model = Model()
-        self.frequency_label['text'] = f'Reverb: {model.get_rd60_display("high")}'
+        if self.controller and self.loaded:
+            self.controller.display_rt_in_tkinter(self, "high")
 
     def mid_button_pressed(self):
-        model = Model()
-        self.frequency_label['text'] = f'Reverb: {model.get_rd60_display("mid")}'
-
+        if self.controller and self.loaded:
+            self.controller.display_rt_in_tkinter(self, "mid")
 
     def low_button_pressed(self):
-        model = Model()
-        self.frequency_label['text'] = f'Reverb: {model.get_rd60_display("low")}'
-
+        if self.controller and self.loaded:
+            self.controller.model.get_rd60_display(self, "low")
 
     def all_button_pressed(self):
-        model = Model()
-        self.frequency_label['text'] = f'Reverb: {model.get_frequency()}'
+        if self.controller and self.loaded:
+            self.reverb_label['text'] = f'Reverb: {round((self.controller.model.get_rd60_display("high") + self.controller.model.get_rd60_display("mid") + self.controller.model.get_rd60_display("low"))/3, 2)} seconds'
 
 
 

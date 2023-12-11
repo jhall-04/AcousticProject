@@ -10,7 +10,7 @@ class App(tk. Tk):
         super().__init__()
 
         self.title('Acoustic')
-        self.geometry('1100x400')
+        self.geometry('1300x400')
 
         # create a model
         model = Model()

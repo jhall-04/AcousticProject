@@ -3,7 +3,6 @@ ffmpeg
 moviepy
 matplotlib
 numpy
-os
 pydub
 pathlib
 scipy

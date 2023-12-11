@@ -1,23 +1,8 @@
-Student application must utilize a graphical user interface such as tkinter to:
- Import data
-    o Load data file from various sources
- Clean
-    o Provide data cleaning tools to handle missing values, remove meta data, and
-    inconsistencies in channel format.
-    o Detect and correct data formatting issues, such mp3 to wav format conversion
- Data Analysis
-    o Generate summary statistics and descriptive measures such as length of audio
-    sample and RT60 value
-    o Create data visualizations, including histograms, scatter plots, boxplots, or bar
-    charts. Visualize the original waveform
-    o Identify patterns or trends in the data, specifically RT60 values over three frequency
-    ranges
- Data modeling
-    o Visualize model performance and interpret results (all plots part of GUI)
-    o Visualize RT60 data for each frequency range and overlapping
-    o Display the greatest resonant frequency (greatest value)
- Reporting
-    o Identify the difference in RT60 time to reduce RT60 to maximum voice intelligibility
-    of .5 seconds
-    Student group will also present a report (no oral presentation) of their project and
-    discoveries.
+audioread==3.0.1
+ffmpeg==1.4
+matplotlib==3.8.2
+numpy==1.26.2
+pydub==0.25.1
+pathlib==1.0.1
+scipy==1.11.4
+wave==0.0.2

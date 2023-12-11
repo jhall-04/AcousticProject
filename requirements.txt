@@ -1,8 +1,8 @@
-audioread
-ffmpeg
-matplotlib
-numpy
-pydub
-pathlib
-scipy
-wave
+audioread==3.0.1
+ffmpeg==1.4
+matplotlib==3.8.2
+numpy==1.26.2
+pydub==0.25.1
+pathlib==1.0.1
+scipy==1.11.4
+wave==0.0.2

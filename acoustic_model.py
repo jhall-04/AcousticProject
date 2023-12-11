@@ -12,6 +12,7 @@ import os
 from tkinter import filedialog as fd
 
 
+# Model class handles all backend opperations in the program
 class Model:
     def __init__(self):
         self.file_path = ''
@@ -19,7 +20,8 @@ class Model:
     @property
     def file_path(self):
         return self._file_path
-    
+
+    # Validates entered file path
     @file_path.setter
     def file_path(self, value):
         if value == '':
@@ -32,6 +34,7 @@ class Model:
         except Exception:
             raise ValueError(f"This is not an audio file: {value}")
 
+# Additional helper function to ensure valid input
     def check_format(self, audio_file):
         extensions = ['.mp3', '.wav']
         # gets the file type before converting
@@ -46,6 +49,7 @@ class Model:
             raise ValueError()
         return self.file_path
 
+# Computes spectrogram of audio file and returns canvas widget to be displayed in tkinter window
     def plot_spectogram(self, root):
         sample_rate, data = wavfile.read(self.file_path)
         fig = Figure(figsize=(4.8, 2), dpi=100)
@@ -68,12 +72,11 @@ class Model:
 
         return canvas_widget
 
-
-
+# Prompts user with file explorer to open audio file of type mp3 or type wav
     def load(self):
         filetypes = (
-            ('All files', '*.*'),
-            ('Text files', '*.txt*')
+            ('Wav files', '*.wav*'),
+            ('Text files', '*.mp3*')
         )
 
         filename = fd.askopenfilename(
@@ -120,6 +123,7 @@ class Model:
             # placeholder print statement, replace with call to display to gui
             return round(f.duration, 2)
 
+    # Collects file data and plots it and calculates rt60
     def get_rd60_display(self, root, freq_range):
         sample_rate, data = wavfile.read(self.file_path)
         spectrum, freqs, t, im = plt.specgram(data, Fs=sample_rate, NFFT=1024, cmap=plt.get_cmap('viridis'))
@@ -139,7 +143,7 @@ class Model:
         index_of_max = np.argmax(data_in_db)
         value_of_max = data_in_db[index_of_max]
 
-        ax.plot(t[index_of_max], data_in_db[index_of_max], 'go', color='#1E99C1')
+        ax.plot(t[index_of_max], data_in_db[index_of_max], color='#1E99C1')
 
         # slice array from max value
         sliced_array = data_in_db[index_of_max:]
@@ -154,14 +158,14 @@ class Model:
         value_of_max_less_5 = find_nearest_value(sliced_array, value_of_max_less_5)
         index_of_max_less_5 = np.where(data_in_db == value_of_max_less_5)
 
-        ax.plot(t[index_of_max_less_5], data_in_db[index_of_max_less_5], 'yo', color='#1E47C1')
+        ax.plot(t[index_of_max_less_5], data_in_db[index_of_max_less_5], color='#1E47C1')
 
         # slice array from a max-5dB
         value_of_max_less_25 = value_of_max - 25
         value_of_max_less_25 = find_nearest_value(sliced_array, value_of_max_less_25)
         index_of_max_less_25 = np.where(data_in_db == value_of_max_less_25)
 
-        ax.plot(t[index_of_max_less_25], data_in_db[index_of_max_less_25], 'ro', color='#461EC1')
+        ax.plot(t[index_of_max_less_25], data_in_db[index_of_max_less_25], color='#461EC1')
 
         rt20 = (t[index_of_max_less_5] - t[index_of_max_less_25])[0]
         rt60 = 3 * rt20
@@ -174,6 +178,7 @@ class Model:
 
         return round(abs(rt60), 2), canvas_widget
 
+    # Combines rt60 plot of all frequency ranges and returns canvast to be implemented in tkinter window
     def get__all_rd60_display(self, root):
         ranges = [('high', 'red'), ('mid', 'green'), ('low', 'blue')]
         rt60 = 0
@@ -197,7 +202,7 @@ class Model:
             index_of_max = np.argmax(data_in_db)
             value_of_max = data_in_db[index_of_max]
 
-            ax.plot(t[index_of_max], data_in_db[index_of_max], 'go', color='#1E99C1')
+            ax.plot(t[index_of_max], data_in_db[index_of_max], color='#1E99C1')
 
             # slice array from max value
             sliced_array = data_in_db[index_of_max:]
@@ -212,14 +217,14 @@ class Model:
             value_of_max_less_5 = find_nearest_value(sliced_array, value_of_max_less_5)
             index_of_max_less_5 = np.where(data_in_db == value_of_max_less_5)
 
-            ax.plot(t[index_of_max_less_5], data_in_db[index_of_max_less_5], 'yo', color='#1E47C1')
+            ax.plot(t[index_of_max_less_5], data_in_db[index_of_max_less_5], color='#1E47C1')
 
             # slice array from a max-5dB
             value_of_max_less_25 = value_of_max - 25
             value_of_max_less_25 = find_nearest_value(sliced_array, value_of_max_less_25)
             index_of_max_less_25 = np.where(data_in_db == value_of_max_less_25)
 
-            ax.plot(t[index_of_max_less_25], data_in_db[index_of_max_less_25], 'ro', color='#461EC1')
+            ax.plot(t[index_of_max_less_25], data_in_db[index_of_max_less_25], color='#461EC1')
 
             rt20 = (t[index_of_max_less_5] - t[index_of_max_less_25])[0]
             rt60 += abs(3 * rt20)
@@ -232,6 +237,7 @@ class Model:
 
         return round(abs(rt60/3), 2), canvas_widget
 
+    # plots waveform of audio file and returns canvas to be implemented in tkinter window
     def plot_waveform(self, root):
         # Open the .wav file
         with wave.open(self.file_path, 'rb') as wav_file:
@@ -253,6 +259,7 @@ class Model:
             canvas_widget = canvas.get_tk_widget()
             return canvas_widget
 
+    # gets the resonant frequency  of the audio file
     def get_frequency(self):
         sample_rate, data = wavfile.read(self.file_path)
         frequencies, power = welch(data, sample_rate, nperseg=4096)

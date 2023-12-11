@@ -1,0 +1,19 @@
+[build-system]
+requires = ["wheel"]
+
+[project]
+name = "SPIDAM"
+version = "1.0.6"
+authors = [
+  { name="Jordan Hall", email="jjordanjh004@outlook.com" },
+]
+description = "An acoustic processing interface"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/jhall-04/AcousticProject"

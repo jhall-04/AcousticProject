@@ -125,6 +125,7 @@ class Model:
             return round(f.duration, 2)
 
     def get_rd60_display(self, root, freq_range):
+        print(freq_range)
         sample_rate, data = wavfile.read(self.file_path)
         spectrum, freqs, t, im = plt.specgram(data, Fs=sample_rate, NFFT=1024, cmap=plt.get_cmap('viridis'))
         data_in_db = self.frequency_check(freq_range)

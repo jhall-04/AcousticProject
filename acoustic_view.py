@@ -32,11 +32,8 @@ class View(ttk.Frame):
         self.all_button = ttk.Button(self, text='All', command=self.all_button_pressed)
         self.all_button.grid(row=8, column=7, padx=5, pady=5)
 
-
-        """
-        self.all_button = ttk.Button(self, text='All', command=self.all_button_pressed)
-        self.all_button.grid(row=8, column=7, padx=5, pady=5)
-        """
+        self.spect_button = ttk.Button(self, text='Spect', command=self.spect_button_pressed)
+        self.spect_button.grid(row=8, column=8, padx=5, pady=5)
 
 
 
@@ -66,7 +63,7 @@ class View(ttk.Frame):
         self.ax1.axis('off')  # Turn off axis to create a blank space
         self.placeholder_fig1.patch.set_visible(False)  # Hide the figure patch
         self.canvas1 = FigureCanvasTkAgg(self.placeholder_fig1, self)
-        self.canvas1.get_tk_widget().grid(row=4, column=4, columnspan=4)
+        self.canvas1.get_tk_widget().grid(row=4, column=4, columnspan=5)
 
         # set the controller
         self.controller = None
@@ -98,11 +95,15 @@ class View(ttk.Frame):
 
     def low_button_pressed(self):
         if self.controller and self.loaded:
-            self.controller.model.get_rd60_display(self, "low")
+            self.controller.display_rt_in_tkinter(self, "low")
 
     def all_button_pressed(self):
         if self.controller and self.loaded:
             self.reverb_label['text'] = f'Reverb: {round((self.controller.model.get_rd60_display("high") + self.controller.model.get_rd60_display("mid") + self.controller.model.get_rd60_display("low"))/3, 2)} seconds'
+
+    def spect_button_pressed(self):
+        if self.controller and self.loaded:
+            pass
 
 
 

@@ -21,7 +21,8 @@ class Controller:
     def display_rt_in_tkinter(self, root, freq_range):
         time, controller_widget = self.model.get_rd60_display(root, freq_range)
         self.view.reverb_label['text'] = f'Reverb: {time} seconds'
-        controller_widget.grid(row=4, column=4, columnspan=4, sticky='w')
+        self.view.canvas1 = controller_widget
+        self.view.canvas1.grid(row=4, column=4, columnspan=5, sticky='w')
     
     def load_data(self):
         file = pathlib.Path(self.model.load()).name

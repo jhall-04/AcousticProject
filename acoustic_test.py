@@ -1,7 +1,6 @@
 from acoustic_model import Model
 from acoustic_view import View
 from acoustic_controller import Controller
-from pydub import AudioSegment
 import tkinter as tk
 
 
@@ -10,7 +9,7 @@ class App(tk. Tk):
         super().__init__()
 
         self.title('Acoustic')
-        self.geometry('1300x400')
+        self.geometry('1050x350')
 
         # create a model
         model = Model()

@@ -2,7 +2,9 @@ pydub
 pathlib
 audioread
 moviepy
-scipy.io
+scipy
 ffmpeg
 matplotlib
-
+numpy
+wave
+os

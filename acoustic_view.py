@@ -1,9 +1,3 @@
-# imports
-import matplotlib.pyplot as plt
-
-from acoustic_model import Model
-from acoustic_controller import Controller
-import tkinter as tk
 from tkinter import ttk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -74,7 +68,7 @@ class View(ttk.Frame):
     def load_button_pressed(self):
         if self.controller:
             self.controller.load_data()
-            self.loaded = True
+
 
     def plot_button_pressed(self):
         if self.controller and self.loaded:
@@ -87,23 +81,23 @@ class View(ttk.Frame):
 
     def high_button_pressed(self):
         if self.controller and self.loaded:
-            self.controller.display_rt_in_tkinter(self, "high")
+            self.controller.display_rt_in_tkinter("high")
 
     def mid_button_pressed(self):
         if self.controller and self.loaded:
-            self.controller.display_rt_in_tkinter(self, "mid")
+            self.controller.display_rt_in_tkinter("mid")
 
     def low_button_pressed(self):
         if self.controller and self.loaded:
-            self.controller.display_rt_in_tkinter(self, "low")
+            self.controller.display_rt_in_tkinter("low")
 
     def all_button_pressed(self):
         if self.controller and self.loaded:
-            self.reverb_label['text'] = f'Reverb: {round((self.controller.model.get_rd60_display("high") + self.controller.model.get_rd60_display("mid") + self.controller.model.get_rd60_display("low"))/3, 2)} seconds'
+            self.controller.display_all_rt_in_tkinter()
 
     def spect_button_pressed(self):
         if self.controller and self.loaded:
-            pass
+            self.controller.display_spectogram_in_tkinter()
 
 
 

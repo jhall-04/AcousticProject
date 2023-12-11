@@ -1,10 +1,10 @@
-pydub
-pathlib
 audioread
-moviepy
-scipy
 ffmpeg
+moviepy
 matplotlib
 numpy
-wave
 os
+pydub
+pathlib
+scipy
+wave

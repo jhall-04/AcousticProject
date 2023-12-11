@@ -2,13 +2,14 @@ import audioread
 import numpy as np
 import matplotlib.pyplot as plt
 import wave
+import pathlib
+import os
+
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from scipy.io import wavfile
 from scipy.signal import welch
 from pydub import AudioSegment
-import pathlib
-import os
 from tkinter import filedialog as fd
 
 
@@ -34,7 +35,7 @@ class Model:
         except Exception:
             raise ValueError(f"This is not an audio file: {value}")
 
-# Additional helper function to ensure valid input
+    # Additional helper function to ensure valid input
     def check_format(self, audio_file):
         extensions = ['.mp3', '.wav']
         # gets the file type before converting
@@ -49,7 +50,30 @@ class Model:
             raise ValueError()
         return self.file_path
 
-# Computes spectrogram of audio file and returns canvas widget to be displayed in tkinter window
+    # plots waveform of audio file and returns canvas to be implemented in tkinter window
+    # modified from https://stackoverflow.com/questions/18625085/how-to-plot-a-wav-file
+    def plot_waveform(self, root):
+        # Open the .wav file
+        with wave.open(self.file_path, 'rb') as wav_file:
+            # Read audio data
+            sample_rate, signal = wavfile.read(self.file_path)
+
+            # Create a Matplotlib figure
+            fig = Figure(figsize=(4.8, 2), dpi=100)
+            ax = fig.add_subplot(111)
+
+            # Plot the waveform
+            time = np.arange(0, len(signal)) / sample_rate
+            ax.plot(time, signal, color='blue')
+            ax.set_title('Waveform')
+            ax.set_xlabel('Time (seconds)')
+            ax.set_ylabel('Amplitude')
+            canvas = FigureCanvasTkAgg(fig, master=root)
+            canvas.draw()
+            canvas_widget = canvas.get_tk_widget()
+            return canvas_widget
+
+    # Computes spectrogram of audio file and returns canvas widget to be displayed in tkinter window
     def plot_spectogram(self, root):
         sample_rate, data = wavfile.read(self.file_path)
         fig = Figure(figsize=(4.8, 2), dpi=100)
@@ -72,7 +96,7 @@ class Model:
 
         return canvas_widget
 
-# Prompts user with file explorer to open audio file of type mp3 or type wav
+    # Prompts user with file explorer to open audio file of type mp3 or type wav
     def load(self):
         filetypes = (
             ('Wav files', '*.wav*'),
@@ -237,29 +261,10 @@ class Model:
 
         return round(abs(rt60/3), 2), canvas_widget
 
-    # plots waveform of audio file and returns canvas to be implemented in tkinter window
-    def plot_waveform(self, root):
-        # Open the .wav file
-        with wave.open(self.file_path, 'rb') as wav_file:
-            # Read audio data
-            sample_rate, signal = wavfile.read(self.file_path)
 
-            # Create a Matplotlib figure
-            fig = Figure(figsize=(4.8, 2), dpi=100)
-            ax = fig.add_subplot(111)
-
-            # Plot the waveform
-            time = np.arange(0, len(signal)) / sample_rate
-            ax.plot(time, signal, color='blue')
-            ax.set_title('Waveform')
-            ax.set_xlabel('Time (seconds)')
-            ax.set_ylabel('Amplitude')
-            canvas = FigureCanvasTkAgg(fig, master=root)
-            canvas.draw()
-            canvas_widget = canvas.get_tk_widget()
-            return canvas_widget
 
     # gets the resonant frequency  of the audio file
+    # Modified from FAQ powerpoint
     def get_frequency(self):
         sample_rate, data = wavfile.read(self.file_path)
         frequencies, power = welch(data, sample_rate, nperseg=4096)
